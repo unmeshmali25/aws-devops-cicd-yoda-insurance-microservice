@@ -4,10 +4,21 @@ phases:
   install:
     runtime-versions:
       java: corretto11
+      docker: 20
+    commands:
+      - echo Installing dependencies...
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region us-east-1)
   build:
     commands:
-      - echo "Building the Spring Boot Application..."
+      - echo Building the application...
       - mvn clean package
-artifacts:
-  files:
-    - target/*.jar
+      - echo Building Docker image...
+      - docker build -t yoda-insurance-app .
+  post_build:
+    commands:
+      - echo Pushing Docker image to ECR...
+      - docker tag yoda-insurance-app:latest <account-id>.dkr.ecr.us-east-1.amazonaws.com/yoda-insurance-app:latest
+      - docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/yoda-insurance-app:latest
