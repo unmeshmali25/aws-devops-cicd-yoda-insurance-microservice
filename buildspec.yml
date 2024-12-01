@@ -4,10 +4,20 @@ phases:
     commands:
       - echo "Test 1"
       - echo "Test 2"  # This is line 13 in this example
-
   install:
-  commands:
-    - yum update -y
-    - amazon-linux-extras install docker -y
-    - service docker start
-    - docker --version
+    commands:
+      - yum update -y
+      - amazon-linux-extras install docker -y
+      - service docker start
+      - docker --version
+  pre_build:
+    commands:
+      - echo Pre-build phase starting...
+
+  build:
+    commands:
+      - echo Build phase starting...
+
+  post_build:
+    commands:
+      - echo Post-build phase starting...
