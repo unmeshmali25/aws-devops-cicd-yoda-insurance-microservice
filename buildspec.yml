@@ -1,30 +1,33 @@
 version: 0.2
-env:
-  variables:
-    AWS_DEFAULT_REGION: "us-east-1"
-    AWS_ACCOUNT_ID: "550432870296"
-    IMAGE_REPO_NAME: "um-ecr"  # Name of your ECR repository
-    IMAGE_TAG: "latest"
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto17
+      
   pre_build:
     commands:
       - echo Pre-build phase starting...
       - echo Logging in to ECR...
-      # - aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION --registry-ids $AWS_ACCOUNT_ID | docker login -u AWS --password-stdin https://$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-
+      
   build:
     commands:
       - echo Build phase starting...
       - echo Building with Maven...
-      - chmod +x mvnw
-      - ./mvnw clean package -DskipTests
-      - echo Build phase starting...
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .  # Make sure your Dockerfile is in the root!
+      - mvn clean package -DskipTests
+      - echo Building Docker image...
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
 
   post_build:
     commands:
       - echo Post-build phase starting...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: "us-east-1"
+    AWS_ACCOUNT_ID: "550432870296"
+    IMAGE_REPO_NAME: "um-ecr"
+    IMAGE_TAG: "latest"
