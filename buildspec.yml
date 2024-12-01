@@ -1,27 +1,32 @@
 version: 0.2
 
+env:
+  variables:
+    REPOSITORY_URI: "<account-id>.dkr.ecr.<your-region>.amazonaws.com/my-app"
+    AWS_DEFAULT_REGION: "<your-region>" # Best practice: explicitly define region
+    IMAGE_TAG: "latest"  # Easier to manage tags this way
+
 phases:
   pre_build:
     commands:
       - echo "Hey How is it going?"
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<your-region>.amazonaws.com
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin <account-id>.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com # Use env variable here too
       - echo Preparing to build the Docker image...
-      - REPOSITORY_URI=<account-id>.dkr.ecr.<your-region>.amazonaws.com/my-app
-      - echo Repository URI: $REPOSITORY_URI
+      - echo Repository URI: ${REPOSITORY_URI}  # Correct substitution
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t my-app:latest .
-      - docker tag my-app:latest $REPOSITORY_URI:latest
+      - docker build -t my-app:${IMAGE_TAG} . # Use image tag variable
+      - docker tag my-app:${IMAGE_TAG} ${REPOSITORY_URI}:${IMAGE_TAG} # Correct substitution
       - echo Docker image tagged with ECR repository URI
   post_build:
     commands:
       - echo Pushing the Docker image to Amazon ECR...
-      - docker push $REPOSITORY_URI:latest
+      - docker push ${REPOSITORY_URI}:${IMAGE_TAG} # Correct substitution
       - echo Docker image pushed to ECR successfully!
 
 artifacts:
   files:
-    - "**/*"
-  discard-paths: yes
+    - "**/*" # Unless you need specific artifacts, consider removing this to speed up the build
+  discard-paths: yes #  Discard unnecessary files
