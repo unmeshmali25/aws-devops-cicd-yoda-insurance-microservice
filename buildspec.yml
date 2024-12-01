@@ -3,6 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo "Hey How is it going?"
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<your-region>.amazonaws.com
       - echo Preparing to build the Docker image...
