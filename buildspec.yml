@@ -2,8 +2,8 @@ version: 0.2
 
 env:
   variables:
-    REPOSITORY_URI: "<account-id>.dkr.ecr.<your-region>.amazonaws.com/my-app"
-    AWS_DEFAULT_REGION: "<your-region>" # Best practice: explicitly define region
+    REPOSITORY_URI: "550432870296.dkr.ecr.us-east-1.amazonaws.com/um-ecr"
+    AWS_DEFAULT_REGION: "us-east-1" # Best practice: explicitly define region
     IMAGE_TAG: "latest"  # Easier to manage tags this way
 
 phases:
@@ -11,14 +11,15 @@ phases:
     commands:
       - echo "Hey How is it going?"
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin <account-id>.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com # Use env variable here too
+      - aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION --registry-ids 550432870296 | docker login -u AWS --password-stdin https://550432870296.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      # - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin <account-id>.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com # Use env variable here too
       - echo Preparing to build the Docker image...
       - echo Repository URI: ${REPOSITORY_URI}  # Correct substitution
   build:
     commands:
       - echo Building the Docker image...
-      - docker build -t my-app:${IMAGE_TAG} . # Use image tag variable
-      - docker tag my-app:${IMAGE_TAG} ${REPOSITORY_URI}:${IMAGE_TAG} # Correct substitution
+      - docker build -t um-ecr:${IMAGE_TAG} . # Use image tag variable
+      - docker tag um-ecr:${IMAGE_TAG} ${REPOSITORY_URI}:${IMAGE_TAG} # Correct substitution
       - echo Docker image tagged with ECR repository URI
   post_build:
     commands:
