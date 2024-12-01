@@ -7,17 +7,6 @@ env:
     IMAGE_TAG: "latest"
 
 phases:
-  # build:
-  #   commands:
-  #     - echo "Test 1"
-  #     - echo "Test 2"  # This is line 13 in this example
-  #     - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .  # Make sure your Dockerfile is in the root!
-  install:
-    commands:
-      - yum update -y
-      - yum install -y docker
-      - systemctl start docker
-      - docker --version  # Verify installation
   pre_build:
     commands:
       - echo Pre-build phase starting...
