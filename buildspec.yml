@@ -1,28 +1,6 @@
 version: 0.2
-
 phases:
-  install: # If you need any dependencies (not needed for simple echo)
-    runtime-versions:
-      nodejs: latest # Or another runtime if needed
-    commands:
-      - echo Installing dependencies... # Example (remove if not needed)
-
-  pre_build:
-    commands:
-      - echo Pre-build phase starting...
-      - echo Date: $(date) # Example: print the date
-
   build:
     commands:
-      - echo Build phase starting...
-      - echo "Hello from CodeBuild!"
-
-  post_build:
-    commands:
-      - echo Post-build phase starting...
-      - echo Build completed!
-
-# artifacts: # Uncomment later if you need to upload build outputs
-#   files:
-#     - '**/*'
-#   discard-paths: yes
+      - echo "Test 1"
+      - echo "Test 2"  # This is line 13 in this example
