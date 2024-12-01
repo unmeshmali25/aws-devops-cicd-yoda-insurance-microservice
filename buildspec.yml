@@ -6,10 +6,8 @@ phases:
       - echo "Test 2"  # This is line 13 in this example
 
   install:
-      runtime-versions:
-        amazonlinux2: latest
-      commands:
-       - yum update -y
-       - amazon-linux-extras install docker -y
-       - service docker start
-       - docker --version
+  commands:
+    - yum update -y
+    - amazon-linux-extras install docker -y
+    - service docker start
+    - docker --version
