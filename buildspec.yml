@@ -1,7 +1,7 @@
 version: 0.2
 env:
   variables:
-    AWS_DEFAULT_REGION: us-east-1"
+    AWS_DEFAULT_REGION: "us-east-1"
     AWS_ACCOUNT_ID: "550432870296"
     IMAGE_REPO_NAME: "um-ecr"  # Name of your ECR repository
     IMAGE_TAG: "latest"
