@@ -7,9 +7,9 @@ phases:
   install:
     commands:
       - yum update -y
-      - amazon-linux-extras install docker -y
+      - yum install -y docker
       - service docker start
-      - docker --version
+      - docker --version  # Verify installation
   pre_build:
     commands:
       - echo Pre-build phase starting...
