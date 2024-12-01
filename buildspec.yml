@@ -1,33 +1,28 @@
 version: 0.2
 
-env:
-  variables:
-    REPOSITORY_URI: "550432870296.dkr.ecr.us-east-1.amazonaws.com/um-ecr"
-    AWS_DEFAULT_REGION: "us-east-1" # Best practice: explicitly define region
-    IMAGE_TAG: "latest"  # Easier to manage tags this way
-
 phases:
+  install: # If you need any dependencies (not needed for simple echo)
+    runtime-versions:
+      nodejs: latest # Or another runtime if needed
+    commands:
+      - echo Installing dependencies... # Example (remove if not needed)
+
   pre_build:
     commands:
-      - echo "Hey How is it going?"
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION --registry-ids 550432870296 | docker login -u AWS --password-stdin https://550432870296.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      # - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin <account-id>.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com # Use env variable here too
-      - echo Preparing to build the Docker image...
-      - echo Repository URI: ${REPOSITORY_URI}  # Correct substitution
+      - echo Pre-build phase starting...
+      - echo Date: $(date) # Example: print the date
+
   build:
     commands:
-      - echo Building the Docker image...
-      - docker build -t um-ecr:${IMAGE_TAG} . # Use image tag variable
-      - docker tag um-ecr:${IMAGE_TAG} ${REPOSITORY_URI}:${IMAGE_TAG} # Correct substitution
-      - echo Docker image tagged with ECR repository URI
+      - echo Build phase starting...
+      - echo "Hello from CodeBuild!"
+
   post_build:
     commands:
-      - echo Pushing the Docker image to Amazon ECR...
-      - docker push ${REPOSITORY_URI}:${IMAGE_TAG} # Correct substitution
-      - echo Docker image pushed to ECR successfully!
+      - echo Post-build phase starting...
+      - echo Build completed!
 
-artifacts:
-  files:
-    - "**/*" # Unless you need specific artifacts, consider removing this to speed up the build
-  discard-paths: yes #  Discard unnecessary files
+# artifacts: # Uncomment later if you need to upload build outputs
+#   files:
+#     - '**/*'
+#   discard-paths: yes
