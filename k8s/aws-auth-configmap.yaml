@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: arn:aws:iam::550432870296:role/codebuild-yoda-insurance-ms-code-build-service-role
+    - rolearn: arn:aws:iam::550432870296:role/service-role/codebuild-yoda-insurance-ms-code-build-service-role
       username: build
       groups:
         - system:masters
