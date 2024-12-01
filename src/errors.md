@@ -51,3 +51,14 @@ ERROR: failed to solve: failed to compute cache key: failed to calculate checksu
 [Container] 2024/12/01 20:14:26.770996 Command did not exit successfully docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG . exit status 1
 
 ```
+
+# error 4
+
+```
+Container] 2024/12/01 20:19:30.641152 Running command chmod +x mvnw
+[Container] 2024/12/01 20:19:30.648059 Running command ./mvnw clean package -DskipTests
+./mvnw: line 114: ./.mvn/wrapper/maven-wrapper.properties: No such file or directory
+[Container] 2024/12/01 20:19:30.655241 Command did not exit successfully ./mvnw clean package -DskipTests exit status 1
+[Container] 2024/12/01 20:19:30.659434 Phase complete: BUILD State: FAILED
+[Container] 2024/12/01 20:19:30.659450 Phase context status code: COMMAND_EXECUTION_ERROR Message: Error while executing command: ./mvnw clean package -DskipTests. Reason: exit status 1
+```
