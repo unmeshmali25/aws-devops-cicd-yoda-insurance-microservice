@@ -62,3 +62,12 @@ Container] 2024/12/01 20:19:30.641152 Running command chmod +x mvnw
 [Container] 2024/12/01 20:19:30.659434 Phase complete: BUILD State: FAILED
 [Container] 2024/12/01 20:19:30.659450 Phase context status code: COMMAND_EXECUTION_ERROR Message: Error while executing command: ./mvnw clean package -DskipTests. Reason: exit status 1
 ```
+
+# error 5
+```
+(base) unmeshmali@Unmeshs-MacBook-Pro yoda-insurance-ms % aws eks list-clusters
+
+An error occurred (AccessDeniedException) when calling the ListClusters operation: User: arn:aws:iam::550432870296:user/um-caltechCC-user is not authorized to perform: eks:ListClusters on resource: arn:aws:eks:us-east-1:550432870296:cluster/*
+(base) unmeshmali@Unmeshs-MacBook-Pro yoda-insurance-ms % kubectl get configmap aws-auth -n kube-system
+error: You must be logged in to the server (Unauthorized)
+```
